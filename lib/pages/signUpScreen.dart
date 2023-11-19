@@ -1,20 +1,17 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lifts_app/constants.dart';
-import 'package:lifts_app/pages/signUpScreen.dart';
-import 'package:lifts_app/views/signInForm.dart';
+import 'package:lifts_app/pages/LoginScreen.dart';
 import 'package:lifts_app/views/signUpForm.dart';
 
-
-
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,45 +35,46 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   style: ButtonStyle(
-                      iconSize: MaterialStateProperty.resolveWith((states) => 30),
+                      iconSize: MaterialStateProperty.resolveWith((states) => 22),
                       iconColor: MaterialStateProperty.resolveWith(
-                          (states) => kLightScafoldBackgroundColor),
+                              (states) => kLightScafoldBackgroundColor),
                       backgroundColor: MaterialStateProperty.resolveWith(
-                          (states) => Colors.black)),
+                              (states) => Colors.black)),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
+
                 const Text(
-                  "Login Here",
+                  "Sign Up Here",
                   style: kBlackHeadingStyle,
                 ),
                 const Text(
-                  "Sign in to your account",
+                  "Create a new account",
                   style: TextStyle(
                       color: kDarkOrangeColor70, fontWeight: FontWeight.w500, fontSize: 16),
                 ),
                 const SizedBox(
                   height: 40,
                 ),
-                const SignInForm(),
+                const SignUpForm(),
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: RichText(
                       text: TextSpan(children: <TextSpan>[
                         const TextSpan(
-                            text: "Don't have an account? ",
+                            text: "Already have an account? ",
                             style: TextStyle(
                                 color: Color.fromRGBO(0, 0, 0, 0.6),
                                 fontWeight: FontWeight.w500)),
                         TextSpan(
-                            text: "Register",
+                            text: "Login",
                             style: const TextStyle(
                                 color: Color.fromRGBO(49, 60, 42, 1),
                                 fontWeight: FontWeight.bold),
                             recognizer: TapGestureRecognizer()..onTap = () {
-                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const SignUpScreen()), (route)=>false);
+                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const LoginScreen()), (route)=>false);
                             }),
                       ]),
                     ),

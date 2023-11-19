@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lifts_app/pages/LoginScreen.dart';
+import 'package:lifts_app/pages/fogortPasswordScreen.dart';
+import 'package:lifts_app/pages/landingScreen.dart';
+import 'package:lifts_app/pages/signUpScreen.dart';
 
 import 'package:provider/provider.dart';
 import 'package:lifts_app/model/lifts_view_model.dart';
@@ -22,7 +25,7 @@ class MyApp extends StatelessWidget {
       ),
       home: ChangeNotifierProvider(
           create: (context) => LiftsViewModel(),
-          child: const LoginScreen(),
+          child: const LandingScreen(),
       )
     );
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lifts_app/components/darkOrangeBtn.dart';
 import 'package:lifts_app/components/darkOutlinedBtn.dart';
+import 'package:lifts_app/pages/LoginScreen.dart';
+import 'package:lifts_app/pages/signUpScreen.dart';
 
 import '../constants.dart';
 
@@ -59,9 +61,13 @@ class _LandingScreenState extends State<LandingScreen> {
               ),
               Column(
                 children: [
-                  DarkOrangeBtn(text: "Sign Up", onPressed: (){}),
+                  DarkOrangeBtn(text: "Sign Up", onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignUpScreen()));
+                  }),
                   const SizedBox(height: 40,),
-                  DarkOutlinedBtn(text: "Sign In", onPressed: (){})
+                  DarkOutlinedBtn(text: "Sign In", onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
+  })
                 ],
               ),
             ],

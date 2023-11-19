@@ -1,16 +1,16 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lifts_app/components/darkOrangeBtn.dart';
 import 'package:lifts_app/constants.dart';
 
-class SignInForm extends StatefulWidget {
-  const SignInForm({super.key});
+class SignUpForm extends StatefulWidget {
+  const SignUpForm({super.key});
 
   @override
-  State<SignInForm> createState() => _SignInFormState();
+  State<SignUpForm> createState() => _SignUpFormState();
 }
 
-class _SignInFormState extends State<SignInForm> {
+class _SignUpFormState extends State<SignUpForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -52,21 +52,29 @@ class _SignInFormState extends State<SignInForm> {
                   borderSide: BorderSide.none),
             ),
           ),
-          Row(
-            children: [
-              const Spacer(),
-              TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "Forgot Password?",
-                    style: kTextFieldLabelStyle,
-                  )),
-            ],
+          const SizedBox(
+            height: 20,
+          ),
+          const Text(
+            "Confirm password",
+            style: kTextFieldLabelStyle,
+          ),
+          TextFormField(
+            decoration: InputDecoration(
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: kDarkOrangeColor)),
+              filled: true,
+              fillColor: kTextFieldBackgroundColor,
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide.none),
+            ),
           ),
           const SizedBox(
             height: 20,
           ),
-          DarkOrangeBtn(text: "Sign In", onPressed: () {}),
+          DarkOrangeBtn(text: "Sign Up", onPressed: () {}),
           const Padding(
             padding: EdgeInsets.all(8.0),
             child: Divider(),
@@ -74,15 +82,15 @@ class _SignInFormState extends State<SignInForm> {
           ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith(
-                    (states) => kLightScafoldBackgroundColor),
+                        (states) => kLightScafoldBackgroundColor),
                 shape: MaterialStateProperty.resolveWith(
-                    (states) => RoundedRectangleBorder(
-                          side: const BorderSide(
-                              color: Color.fromRGBO(190, 185, 185, 1)),
-                          borderRadius: BorderRadius.circular(10),
-                        )),
+                        (states) => RoundedRectangleBorder(
+                      side: const BorderSide(
+                          color: Color.fromRGBO(190, 185, 185, 1)),
+                      borderRadius: BorderRadius.circular(10),
+                    )),
                 fixedSize: MaterialStateProperty.resolveWith(
-                    (states) => Size(MediaQuery.of(context).size.width, 46)),
+                        (states) => Size(MediaQuery.of(context).size.width, 46)),
               ),
               onPressed: () {},
               child:  const Row(
@@ -92,7 +100,7 @@ class _SignInFormState extends State<SignInForm> {
                   Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      "Sign in with Google",
+                      "Sign up with Google",
                       style: TextStyle(fontSize: 16, color: Colors.black),
                     ),
                   ),

@@ -1,20 +1,16 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lifts_app/constants.dart';
-import 'package:lifts_app/pages/signUpScreen.dart';
-import 'package:lifts_app/views/signInForm.dart';
-import 'package:lifts_app/views/signUpForm.dart';
+import 'package:lifts_app/views/resetPasswordForm.dart';
 
-
-
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,28 +34,29 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   style: ButtonStyle(
-                      iconSize: MaterialStateProperty.resolveWith((states) => 30),
+                      iconSize: MaterialStateProperty.resolveWith((states) => 22),
                       iconColor: MaterialStateProperty.resolveWith(
-                          (states) => kLightScafoldBackgroundColor),
+                              (states) => kLightScafoldBackgroundColor),
                       backgroundColor: MaterialStateProperty.resolveWith(
-                          (states) => Colors.black)),
+                              (states) => Colors.black)),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
+
                 const Text(
-                  "Login Here",
+                  "Forgot your password",
                   style: kBlackHeadingStyle,
                 ),
                 const Text(
-                  "Sign in to your account",
+                  "Enter your email to reset your password",
                   style: TextStyle(
                       color: kDarkOrangeColor70, fontWeight: FontWeight.w500, fontSize: 16),
                 ),
                 const SizedBox(
                   height: 40,
                 ),
-                const SignInForm(),
+                const ResetPasswordForm(),
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.all(20),
@@ -75,9 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: const TextStyle(
                                 color: Color.fromRGBO(49, 60, 42, 1),
                                 fontWeight: FontWeight.bold),
-                            recognizer: TapGestureRecognizer()..onTap = () {
-                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const SignUpScreen()), (route)=>false);
-                            }),
+                            recognizer: TapGestureRecognizer()..onTap = () {}),
                       ]),
                     ),
                   ),

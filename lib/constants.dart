@@ -19,6 +19,7 @@ const kSubHeadingStyle =  TextStyle(
 const kLargeTextStyle = TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.w300);
 
 const kDarkOrangeColor = Color.fromRGBO(184, 98, 27, 1);
+const kDarkOrangeColor70 = Color.fromRGBO(184, 98, 27, 0.7);
 const kTextFieldBackgroundColor = Color.fromRGBO(224, 224, 224, 1);
 const kLightScafoldBackgroundColor = Color.fromRGBO(255, 251, 245, 1);
 const kTextFieldLabelStyle = TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18);
