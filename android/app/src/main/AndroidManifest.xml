@@ -1,9 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="za.co.wethinkcode.widgets_app">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="widgets_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+       <!-- TODO: Add your Google Maps API key here -->
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyBCci3Zk-npQ9fzMvJt-LWYMMsYLqjV8Qk"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

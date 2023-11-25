@@ -7,7 +7,7 @@ const kOrangeHeadingStyle = TextStyle(
 );
 
 const kBlackHeadingStyle = TextStyle(
-    color: Color.fromRGBO(0, 0, 0, 1),
+    color: kDarkColor,
     fontWeight: FontWeight.bold,
     fontSize: 30
 );
@@ -20,7 +20,10 @@ const kLargeTextStyle = TextStyle(color: Colors.white, fontSize: 30, fontWeight:
 
 const kDarkOrangeColor = Color.fromRGBO(184, 98, 27, 1);
 const kDarkOrangeColor70 = Color.fromRGBO(184, 98, 27, 0.7);
+const kDarkColor = Color.fromRGBO(44, 51, 51, 1);
 const kTextFieldBackgroundColor = Color.fromRGBO(224, 224, 224, 1);
 const kLightScafoldBackgroundColor = Color.fromRGBO(255, 251, 245, 1);
 const kTextFieldLabelStyle = TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18);
+const kLightOrangeNormalTextStyle = TextStyle(
+    color: kDarkOrangeColor70, fontWeight: FontWeight.w500, fontSize: 16);
 

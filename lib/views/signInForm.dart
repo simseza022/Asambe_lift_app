@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:lifts_app/components/darkOrangeBtn.dart';
+import 'package:lifts_app/components/buttons/darkOrangeBtn.dart';
 import 'package:lifts_app/constants.dart';
-import 'package:lifts_app/pages/fogortPasswordScreen.dart';
+import 'package:lifts_app/pages/homeScreen.dart';
+
+import '../components/customAlertDialog.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({super.key});
@@ -12,9 +15,14 @@ class SignInForm extends StatefulWidget {
 }
 
 class _SignInFormState extends State<SignInForm> {
+  TextEditingController emailCtrl = TextEditingController();
+  TextEditingController passwordCtrl = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -23,6 +31,18 @@ class _SignInFormState extends State<SignInForm> {
             style: kTextFieldLabelStyle,
           ),
           TextFormField(
+            validator: (value){
+              RegExp exp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+              if(value == null || value.isEmpty){
+                return "Email cannot be empty";
+              }
+              else if(!exp.hasMatch(value)){
+                return "Invalid email format";
+              }
+
+              return null;
+            },
+            controller: emailCtrl,
             decoration: InputDecoration(
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -42,6 +62,16 @@ class _SignInFormState extends State<SignInForm> {
             style: kTextFieldLabelStyle,
           ),
           TextFormField(
+            validator: (value){
+              if(value == null || value.isEmpty){
+                return "Password cannot be empty";
+              }
+              else if(value.length <= 3){
+                return "Password must at least be 8 characters long";
+              }
+              return null;
+            },
+            controller: passwordCtrl,
             decoration: InputDecoration(
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -58,7 +88,8 @@ class _SignInFormState extends State<SignInForm> {
               const Spacer(),
               TextButton(
                   onPressed: () {
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const ForgotPasswordScreen()), (route) => false);
+                    // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const ForgotPasswordScreen()), (route) => ;
+                    Navigator.pushNamed(context, '/resetPassword');
                   },
                   child: const Text(
                     "Forgot Password?",
@@ -69,7 +100,24 @@ class _SignInFormState extends State<SignInForm> {
           const SizedBox(
             height: 20,
           ),
-          DarkOrangeBtn(text: "Sign In", onPressed: () {}),
+          DarkOrangeBtn(text: "Sign In", onPressed: () {
+            if(_formKey.currentState!.validate()){
+              signInUser(emailCtrl.value.text, passwordCtrl.value.text).then((value){
+                if(!value){
+                  showDialog(
+                    context: context,
+                      builder: (context) =>const CustomAlertDialog(title: "Wrong Email or Password",)
+                  );
+                }
+                setState(() {
+                  loading = false;
+                });
+              });
+              setState(() {
+                loading = true;
+              });
+            }
+          }, loading: loading,),
           const Padding(
             padding: EdgeInsets.all(8.0),
             child: Divider(),
@@ -77,17 +125,19 @@ class _SignInFormState extends State<SignInForm> {
           ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith(
-                    (states) => kLightScafoldBackgroundColor),
+                        (states) => kLightScafoldBackgroundColor),
                 shape: MaterialStateProperty.resolveWith(
-                    (states) => RoundedRectangleBorder(
-                          side: const BorderSide(
-                              color: Color.fromRGBO(190, 185, 185, 1)),
-                          borderRadius: BorderRadius.circular(10),
-                        )),
+                        (states) => RoundedRectangleBorder(
+                      side: const BorderSide(
+                          color: Color.fromRGBO(190, 185, 185, 1)),
+                      borderRadius: BorderRadius.circular(10),
+                    )),
                 fixedSize: MaterialStateProperty.resolveWith(
-                    (states) => Size(MediaQuery.of(context).size.width, 46)),
+                        (states) => Size(MediaQuery.of(context).size.width, 46)),
               ),
-              onPressed: () {},
+              onPressed: () {
+
+              },
               child:  const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -104,5 +154,27 @@ class _SignInFormState extends State<SignInForm> {
         ],
       ),
     );
+
+
+
+  }
+  Future<bool> signInUser(String email, String password) async{
+    try{
+      final cred = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email,
+          password: password
+      ).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomeScreen())));
+
+    }on FirebaseAuthException catch (e){
+      if (e.code == 'user-not-found') {
+        return false;
+      } else if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
+        return false;
+      }
+      // print("error ${e.code}");
+    }catch(e){
+      return false;
+    }
+    return true;
   }
 }

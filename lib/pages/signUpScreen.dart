@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lifts_app/constants.dart';
-import 'package:lifts_app/pages/LoginScreen.dart';
 import 'package:lifts_app/views/signUpForm.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -18,7 +17,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       backgroundColor: kLightScafoldBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.all(20),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -74,7 +73,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: Color.fromRGBO(49, 60, 42, 1),
                                 fontWeight: FontWeight.bold),
                             recognizer: TapGestureRecognizer()..onTap = () {
-                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const LoginScreen()), (route)=>false);
+                              // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
+                              Navigator.popAndPushNamed(context, '/login');
+                              // Navigator.push(context, )
                             }),
                       ]),
                     ),

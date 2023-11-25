@@ -1,9 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lifts_app/constants.dart';
-import 'package:lifts_app/pages/signUpScreen.dart';
 import 'package:lifts_app/views/signInForm.dart';
-import 'package:lifts_app/views/signUpForm.dart';
+
 
 
 
@@ -21,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: kLightScafoldBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.all(20),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -38,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   style: ButtonStyle(
-                      iconSize: MaterialStateProperty.resolveWith((states) => 30),
+                      iconSize: MaterialStateProperty.resolveWith((states) => 22),
                       iconColor: MaterialStateProperty.resolveWith(
                           (states) => kLightScafoldBackgroundColor),
                       backgroundColor: MaterialStateProperty.resolveWith(
@@ -53,8 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const Text(
                   "Sign in to your account",
-                  style: TextStyle(
-                      color: kDarkOrangeColor70, fontWeight: FontWeight.w500, fontSize: 16),
+                  style:  kLightOrangeNormalTextStyle,
                 ),
                 const SizedBox(
                   height: 40,
@@ -76,7 +74,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: Color.fromRGBO(49, 60, 42, 1),
                                 fontWeight: FontWeight.bold),
                             recognizer: TapGestureRecognizer()..onTap = () {
-                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const SignUpScreen()), (route)=>false);
+                              // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const SignUpScreen()), (route)=>false);
+                              Navigator.popAndPushNamed(context, '/signUp');
                             }),
                       ]),
                     ),

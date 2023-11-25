@@ -11,13 +11,14 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kLightScafoldBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.all(20),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -72,7 +73,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             style: const TextStyle(
                                 color: Color.fromRGBO(49, 60, 42, 1),
                                 fontWeight: FontWeight.bold),
-                            recognizer: TapGestureRecognizer()..onTap = () {}),
+                            recognizer: TapGestureRecognizer()..onTap = () {
+                              Navigator.popAndPushNamed(context, '/signUp');
+                            }),
                       ]),
                     ),
                   ),
