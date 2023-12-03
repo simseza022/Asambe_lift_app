@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:lifts_app/components/buttons/darkOrangeBtn.dart';
 import 'package:lifts_app/constants.dart';
 import 'package:lifts_app/model/car.dart';
+import 'package:lifts_app/model/carsModel.dart';
+import 'package:lifts_app/repository/carsRepository.dart';
+import 'package:provider/provider.dart';
 
 class AddCarForm extends StatefulWidget {
   const AddCarForm({super.key});
@@ -75,11 +78,11 @@ class _AddCarFormState extends State<AddCarForm> {
         ),
         const SizedBox(height: 20,),
         const Text(
-          "Year",
+          "Number Plate",
           style: kTextFieldLabelStyle,
         ),
         TextFormField(
-          keyboardType: TextInputType.number,
+          keyboardType: TextInputType.text,
           validator: (value){
             if(value == null || value.isEmpty){
               return "Field cannot be empty";
@@ -124,18 +127,26 @@ class _AddCarFormState extends State<AddCarForm> {
           ),
         ),
         const SizedBox(height: 20,),
-        DarkOrangeBtn(text: "Done", onPressed: (){
-          if(_formKey.currentState!.validate()){
-            //save a car
-            Car car = Car(manufacturer: manuCtrl.text, model: modelCtrl.text, year: int.parse(yearCtrl.text), totalNoPassengers: int.parse(totalNoPassengersCtrl.text));
-            print(car.toString());
-            Car next = Car.fromJson(car.toJson());
-            print("next ------>$next");
-          }
-
-        }, loading: false),
-
+        DarkOrangeBtn(text: "Done", onPressed: addCar, loading: false),
       ],
     ));
+  }
+
+  void addCar(){
+    if(_formKey.currentState!.validate()){
+      Car car = Car(manufacturer: manuCtrl.text, model: modelCtrl.text, numberPlate: yearCtrl.text, totalNoPassengers: int.parse(totalNoPassengersCtrl.text));
+      CarsRepository carRepo = CarsRepository();
+      carRepo.addNewCar(car).then((value){
+        if(value.getId!=null){
+          Provider.of<CarsModel>(context, listen: false).add(car);
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Car added successfully.\nYou can add a new lift", style: TextStyle(color: Colors.greenAccent),)));
+        }
+        else{
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("An error has occurred...", style: TextStyle(color: Colors.redAccent),)));
+        }
+      });
+
+    }
   }
 }

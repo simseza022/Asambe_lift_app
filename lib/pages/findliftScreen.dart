@@ -3,7 +3,10 @@ import 'package:lifts_app/components/cards/availableLiftCard.dart';
 import 'package:lifts_app/components/customSearchBar.dart';
 import 'package:lifts_app/constants.dart';
 import 'package:lifts_app/model/lifts_view_model.dart';
+import 'package:lifts_app/repository/lifts_repository.dart';
 import 'package:provider/provider.dart';
+
+import '../model/lift.dart';
 
 class FindLiftScreen extends StatefulWidget {
   const FindLiftScreen({super.key});
@@ -12,9 +15,41 @@ class FindLiftScreen extends StatefulWidget {
   State<FindLiftScreen> createState() => _FindLiftScreenState();
 }
 
-class _FindLiftScreenState extends State<FindLiftScreen> {
+class _FindLiftScreenState extends State<FindLiftScreen>  with TickerProviderStateMixin{
+
   String? toAddress;
   String? fromAddress;
+  LiftsRepository? liftsRepo;
+  late AnimationController controller;
+  bool isLoadingData = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    )..addListener(() {
+      setState(() {});
+    });
+    controller.repeat(reverse: true);
+    liftsRepo = LiftsRepository();
+    liftsRepo?.liftEventListener(updateLiftList);
+
+    super.initState();
+  }
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+  void updateLiftList(List<Lift> list) {
+    Provider.of<LiftsViewModel>(context, listen: false).addAll(list);
+    setState(() {
+      isLoadingData = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return  Consumer<LiftsViewModel>(
@@ -53,7 +88,13 @@ class _FindLiftScreenState extends State<FindLiftScreen> {
             const SizedBox(
               height: 20,
             ),
-            liftsModel.items.length==0?Text("No lifts available."):Expanded(
+            isLoadingData? Center(
+              child: CircularProgressIndicator(
+                value: controller.value,
+                color: kDefaultIconDarkColor,
+                // strokeWidth: ,
+              ),
+            ): liftsModel.items.isEmpty?const Text("No lifts available."):Expanded(
               child: ListView.builder(
                   padding: EdgeInsets.zero,
                   itemCount: liftsModel.items.length,

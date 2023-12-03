@@ -1,14 +1,22 @@
 class Car{
+  String? _id;
   String manufacturer;
   String model;
-  int year;
+  String numberPlate;
   int totalNoPassengers;
-  Car({required this.manufacturer,required this.model, required this.year, required this.totalNoPassengers});
 
-  Car.fromJson(Map<String, Object?> jsonMap ) : this(
+
+  Car({required this.manufacturer,required this.model, required this.numberPlate, required this.totalNoPassengers});
+
+   set setId(String? idParam) {
+    _id = idParam!;
+  }
+  String? get getId => _id;
+
+  Car.fromJson(Map<Object?, Object?> jsonMap ) : this(
     manufacturer: jsonMap['manufacturer'] as String,
     model: jsonMap['model'] as String,
-    year: jsonMap['year'] as int,
+    numberPlate: jsonMap['numberPlate'] as String,
     totalNoPassengers: jsonMap['totalNoPassengers'] as int,);
 
 
@@ -16,13 +24,14 @@ class Car{
     return {
       'manufacturer': manufacturer,
       'model': model,
-      'year': year,
+      'numberPlate': numberPlate,
       'totalNoPassengers': totalNoPassengers
     };
   }
 
   @override
   String toString() {
-    return 'Car{manufacturer: $manufacturer, model: $model, year: $year, totalNoPassengers: $totalNoPassengers}';
+    return 'Car{manufacturer: $manufacturer, model: $model, numberPlate: $numberPlate, totalNoPassengers: $totalNoPassengers}';
   }
+
 }

@@ -7,7 +7,7 @@ import 'package:lifts_app/model/lift.dart';
 ///Contains the relevant lifts data for our views
 class LiftsViewModel extends  ChangeNotifier {
   //TODO keep track of loaded Lifts and notify views on changes
-  final List<Lift> _items = [];
+  List<Lift> _items = [];
 
   /// An unmodifiable view of the items in the cart.
   UnmodifiableListView<Lift> get items => UnmodifiableListView(_items);
@@ -18,6 +18,11 @@ class LiftsViewModel extends  ChangeNotifier {
   /// cart from the outside.
   void add(Lift item) {
     _items.add(item);
+    // This call tells the widgets that are listening to this model to rebuild.
+    notifyListeners();
+  }
+  void addAll(List<Lift> list) {
+    _items = list;
     // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
   }

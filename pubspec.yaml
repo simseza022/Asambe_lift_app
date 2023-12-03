@@ -42,6 +42,7 @@ dependencies:
   flutter_google_places: ^0.3.0
   google_maps_flutter: ^2.5.0
   address_search_field: ^5.0.3
+  firebase_database: ^10.3.5
 
 dev_dependencies:
   flutter_test:
