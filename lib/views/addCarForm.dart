@@ -68,7 +68,7 @@ class _AddCarFormState extends State<AddCarForm> {
           decoration: InputDecoration(
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: kDarkOrangeColor)),
+                borderSide: const BorderSide(color: kDarkOrangeColor)),
             filled: true,
             fillColor: kTextFieldBackgroundColor,
             border: OutlineInputBorder(

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -7,21 +8,17 @@ import 'package:lifts_app/model/car.dart';
 
 
 class CarsRepository{
-  FirebaseDatabase database = FirebaseDatabase.instanceFor(app: Firebase.app(),databaseURL: "https://asambe-b2f41-default-rtdb.firebaseio.com/" );
+  User? user = FirebaseAuth.instance.currentUser;
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
   //TODO: implement create, update and retrieve methods
   Future<Car> addNewCar(Car newCar) async {
     try{
-      DatabaseReference ref  = database.ref().child('Cars');
-      DatabaseReference newChildRef = ref.push();
-      await newChildRef.set(newCar.toJson()).then((value){
-        newCar.setId = newChildRef.key;
-        print("Successfully added a new car to the database");
-        //now we link the car to the user that added it, via document 'driverCars'
-        database.ref()
-            .child('driverCars')
-            .child('${FirebaseAuth.instance.currentUser?.uid}')
-            .child('${newChildRef.key}').set(true);
+      await db.collection("Cars").add(newCar.toJson()).then((DocumentReference doc){
+        print('Car added with ID: ${doc.id}');
+        newCar.setId = doc.id;
+        db.collection("driverCars")
+            .doc('${user?.uid}').set({doc.id:true},SetOptions(merge: true));
       });
       return newCar;
     }
@@ -31,9 +28,26 @@ class CarsRepository{
     }
 
   }
-  Future<bool> checkUserHasCars(String? id) async{
-    final snapshot = await database.ref().child('driverCars/$id').get();
-    return snapshot.exists;
+  Future<List<Car>> getUserCars() async {
+    final driverCarsRef = db.collection("driverCars").doc("${user?.uid}");
+    try {
+      DocumentSnapshot docSnap = await driverCarsRef.get();
+      if(docSnap.exists){
+        Map<String, dynamic> driverCarIDs = docSnap.data() as Map<String, dynamic>;
+        List<Car> carList = [];
+        final carRef = db.collection("Cars");
+        for(var carId in driverCarIDs.keys){
+          DocumentSnapshot dSnap = await carRef.doc(carId).get();
+          Map<String, dynamic> carData = dSnap.data() as Map<String, dynamic>;
+          carList.add(Car.fromJson(carData));
+        }
+        return carList;
+      }
+    }catch(e){
+      print("Error getting driverCars doc: $e");
+
+    }
+    return [];
   }
 
 }

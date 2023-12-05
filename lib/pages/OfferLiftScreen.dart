@@ -264,18 +264,19 @@ class _OfferLiftScreenState extends State<OfferLiftScreen> {
           departureDateTime: combineDateAndTime(selectedDate!, selectedTime!),
           toAddress: toAddress!,
           fromAddress: fromAddress!,
-          liftCar: selectedCar!);
+          liftCar: selectedCar!.getId.toString());
 
       //notify listeners
       liftsRepo.addNewLift(lift).then((value) {
         if (value.getId != null) {
-          Provider.of<LiftsViewModel>(context, listen: false).add(lift);
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text(
             "Lift added successfully.",
             style: TextStyle(color: Colors.greenAccent),
           )));
+          //TODO: update LiftsViewModel
+          Provider.of<LiftsViewModel>(context, listen: false).addOfferedLift(value);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text(

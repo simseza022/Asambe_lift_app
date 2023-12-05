@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lifts_app/components/buttons/darkOrangeBtn.dart';
 import 'package:lifts_app/constants.dart';
 import 'package:lifts_app/pages/homeScreen.dart';
+import 'package:lifts_app/pages/loadingScreen.dart';
 
 import '../components/customAlertDialog.dart';
 
@@ -109,6 +110,11 @@ class _SignInFormState extends State<SignInForm> {
                       builder: (context) =>const CustomAlertDialog(title: "Wrong Email or Password",)
                   );
                 }
+                else{
+                  // Navigator.popAndPushNamed(context, '/loadingScreen');
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil('/loadingScreen', (Route<dynamic> route) => false);
+                }
                 setState(() {
                   loading = false;
                 });
@@ -163,7 +169,7 @@ class _SignInFormState extends State<SignInForm> {
       final cred = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
           password: password
-      ).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomeScreen())));
+      );
 
     }on FirebaseAuthException catch (e){
       if (e.code == 'user-not-found') {

@@ -15,13 +15,12 @@ class FindLiftScreen extends StatefulWidget {
   State<FindLiftScreen> createState() => _FindLiftScreenState();
 }
 
-class _FindLiftScreenState extends State<FindLiftScreen>  with TickerProviderStateMixin{
-
+class _FindLiftScreenState extends State<FindLiftScreen>
+    with TickerProviderStateMixin {
   String? toAddress;
   String? fromAddress;
-  LiftsRepository? liftsRepo;
+
   late AnimationController controller;
-  bool isLoadingData = true;
 
   @override
   void initState() {
@@ -30,82 +29,81 @@ class _FindLiftScreenState extends State<FindLiftScreen>  with TickerProviderSta
       vsync: this,
       duration: const Duration(seconds: 1),
     )..addListener(() {
-      setState(() {});
-    });
+        setState(() {});
+      });
     controller.repeat(reverse: true);
-    liftsRepo = LiftsRepository();
-    liftsRepo?.liftEventListener(updateLiftList);
 
     super.initState();
   }
+
   @override
   void dispose() {
     controller.dispose();
     super.dispose();
   }
-  void updateLiftList(List<Lift> list) {
-    Provider.of<LiftsViewModel>(context, listen: false).addAll(list);
-    setState(() {
-      isLoadingData = false;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    return  Consumer<LiftsViewModel>(
-      builder: (context, liftsModel, child) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // AppBarOne(),
-            const SizedBox(
-              height: 20,
-            ),
-            CustomSearchBar(
-              hintText: toAddress==null?"Where are we going?":"To: ${toAddress.toString()}",
-              onPressed: (String selected){
-                setState(() {
-                  selected==""?toAddress=null:toAddress=selected;
-                });
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            CustomSearchBar(hintText: fromAddress==null?"From?":"From: ${fromAddress.toString()}",onPressed: (selected){
+    return Consumer<LiftsViewModel>(builder: (context, liftsModel, child) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // AppBarOne(),
+          const SizedBox(
+            height: 20,
+          ),
+          CustomSearchBar(
+            hintText: toAddress == null
+                ? "Where are we going?"
+                : "To: ${toAddress.toString()}",
+            onPressed: (String selected) {
               setState(() {
-                  selected==""?fromAddress=null:fromAddress=selected;
+                selected == "" ? toAddress = null : toAddress = selected;
               });
-
-            },),
-            const SizedBox(
-              height: 20,
-            ),
-            const Text(
-              "Available Lifts",
-              style: kBlackHeadingStyle,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            isLoadingData? Center(
-              child: CircularProgressIndicator(
-                value: controller.value,
-                color: kDefaultIconDarkColor,
-                // strokeWidth: ,
-              ),
-            ): liftsModel.items.isEmpty?const Text("No lifts available."):Expanded(
-              child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: liftsModel.items.length,
-                  itemBuilder: (BuildContext context, int index){
-                    return AvailableLiftCard(address: liftsModel.items[index].toAddress.reference!, time:liftsModel.items[index].departureDateTime.toString() );
-
-                  }),
-            )
-          ],
-        );
-      }
-    );
+            },
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          CustomSearchBar(
+            hintText: fromAddress == null
+                ? "From?"
+                : "From: ${fromAddress.toString()}",
+            onPressed: (selected) {
+              setState(() {
+                selected == "" ? fromAddress = null : fromAddress = selected;
+              });
+            },
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          const Text(
+            "Available Lifts",
+            style: kBlackHeadingStyle,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          liftsModel.availableLifts.isEmpty
+              ? const Text("No lifts available.")
+              : Expanded(
+                  child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: liftsModel.availableLifts.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return AvailableLiftCard(
+                          lift: liftsModel
+                              .availableLifts[index],
+                            address: liftsModel
+                                .availableLifts[index].toAddress.reference!,
+                            time: liftsModel
+                                .availableLifts[index].departureDateTime
+                                .toString());
+                      }),
+                )
+        ],
+      );
+    });
   }
 }

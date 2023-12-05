@@ -9,7 +9,7 @@ class Lift {
   Address toAddress;
   Address fromAddress;
   DateTime departureDateTime;
-  Car liftCar;
+  String liftCar;
 
 
   //TODO
@@ -19,11 +19,11 @@ class Lift {
   }
   Lift({required this.departureDateTime, required this.toAddress, required this.fromAddress, required this.liftCar});
 
-  Lift.fromJson(Map<Object?, Object?> jsonMap ) : this(
+  Lift.fromJson(Map<String, dynamic> jsonMap ) : this(
       departureDateTime: DateTime.parse(jsonMap['departureDateTime'] as String),
     toAddress: Address.fromReference(reference: jsonMap['toAddress'] as String),
     fromAddress: Address.fromReference(reference: jsonMap['fromAddress'] as String),
-  liftCar: Car.fromJson(jsonMap['liftCar'] as Map<Object?, Object?>),);
+  liftCar: jsonMap['liftCar'] as String,);
 
 
   Map<String, Object?> toJson() {
@@ -31,12 +31,12 @@ class Lift {
       'departureDateTime': departureDateTime.toIso8601String(),
       'toAddress': toAddress.reference,
       'fromAddress': fromAddress.reference,
-      'liftCar': liftCar.toJson()
+      'liftCar': liftCar
     };
   }
 
   @override
   String toString() {
-    return 'Lift{departureDateTime: $departureDateTime, toAddress: ${toAddress.reference}, fromAddress: ${fromAddress.reference}, liftCar: ${liftCar.toString()}}';
+    return 'Lift{departureDateTime: $departureDateTime, toAddress: ${toAddress.reference}, fromAddress: ${fromAddress.reference}, liftCar: $liftCar}';
   }
 }

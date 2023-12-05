@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lifts_app/constants.dart';
 
+import '../../model/lift.dart';
+
 class AvailableLiftCard extends StatefulWidget {
   final String address;
   final String time;
+  final Lift lift;
   const AvailableLiftCard(
-      {super.key, required this.address, required this.time});
+      {super.key, required this.address, required this.time, required this.lift});
 
   @override
   State<AvailableLiftCard> createState() => _AvailableLiftCardState();
@@ -16,12 +19,20 @@ class _AvailableLiftCardState extends State<AvailableLiftCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+
       clipBehavior: Clip.hardEdge,
       child: InkWell(
-        onTap: (){},
+
+
+        onTap: (){
+          //TODO: add Lift details screen and allow user to edit
+          Navigator.pushNamed(context, '/liftDetails', arguments: {"lift": widget.lift});
+        },
         splashColor: kDarkOrangeColor.withAlpha(80),
 
         child: Ink(
+          padding: EdgeInsets.zero,
+
           width: MediaQuery.of(context).size.width,
           height: 120,
           decoration: BoxDecoration(

@@ -21,6 +21,10 @@ class CarsModel extends ChangeNotifier{
     // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
   }
+  void addAll(List<Car> items){
+    _list.addAll(items);
+    notifyListeners();
+  }
 
   /// Removes all items from the cart.
   void removeAll() {
